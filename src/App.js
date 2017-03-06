@@ -12,6 +12,11 @@ class App extends Component {
     this.handleLogOut = this.handleLogOut.bind(this);
   }
 
+  componentWillMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.setState({ user: user });
+    });
+  }
 
   handleAuth() {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -38,12 +43,12 @@ class App extends Component {
     if (this.state.user) {
       return (
         <div>
-          <img src={this.state.user.photoURL} alt={this.state.user.displayName} />
+          <img width="100" src={this.state.user.photoURL} alt={this.state.user.displayName} />
           <p>Hola {this.state.user.displayName}</p>
           <button onClick={this.handleLogOut}>Log Out</button>
         </div>
       );
-    }else{
+    } else {
       return (<button onClick={this.handleAuth}>Login with Google</button>)
     }
   }
